@@ -23,7 +23,7 @@ echo "Ejecting disk image..."
 # recreate missing update script
 if [ ! -e /tmp/FirmwareUpdate/Scripts/postinstall_actions/update ]; then
 /bin/mkdir -p /tmp/FirmwareUpdate/Scripts/postinstall_actions
-cat <<EOF >> /tmp/FirmwareUpdate/Scripts/postinstall_actions/update
+cat << 'EOF' >> /tmp/FirmwareUpdate/Scripts/postinstall_actions/update
 #!/bin/sh
 
 /usr/libexec/FirmwareUpdateLauncher -p "$PWD/Tools"
