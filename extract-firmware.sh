@@ -2,8 +2,10 @@
 # Based on investigations and work by Pepijn Bruienne
 # Expects a single /Applications/Install macOS High Sierra*.app on disk
 
-IDENTIFIER="com.foo.FirmwareUpdateStandalone"
-VERSION=1.0
+if [ ! -f "/usr/local/bin/munkipkg" ]; then
+  echo "munkipkg not found and is required. You can get munkipkg from https://github.com/munki/munki-pkg"
+  exit 1
+fi
 
 # find the Install macOS High Sierra.app and mount the embedded InstallESD disk image
 echo "Mounting High Sierra ESD disk image..."
@@ -11,7 +13,8 @@ echo "Mounting High Sierra ESD disk image..."
 
 # expand the FirmwareUpdate.pkg so we can copy resources from it
 echo "Expanding FirmwareUpdate.pkg"
-/usr/sbin/pkgutil --expand /Volumes/InstallESD/Packages/FirmwareUpdate.pkg /tmp/FirmwareUpdate
+#/usr/sbin/pkgutil --expand /Volumes/InstallESD/Packages/FirmwareUpdate.pkg /tmp/FirmwareUpdate
+/usr/local/bin/munkipkg --import /Volumes/InstallESD/Packages/FirmwareUpdate.pkg /tmp/FirmwareUpdate
 
 # we don't need the disk image any more
 echo "Ejecting disk image..."
@@ -38,10 +41,12 @@ echo "" >> /tmp/FirmwareUpdateStandalone/scripts/postinstall
 echo "" >> /tmp/FirmwareUpdateStandalone/scripts/postinstall
 echo "exit 0" >> /tmp/FirmwareUpdateStandalone/scripts/postinstall
 /bin/cp -R /tmp/FirmwareUpdate/Scripts/Tools /tmp/FirmwareUpdateStandalone/scripts/
+/bin/cp /tmp/FirmwareUpdate/build-info.plist /tmp/FirmwareUpdateStandalone/
 
 # build the package
 echo "Building standalone package..."
-/usr/bin/pkgbuild --nopayload --scripts /tmp/FirmwareUpdateStandalone/scripts --identifier "$IDENTIFIER" --version "$VERSION" /tmp/FirmwareUpdateStandalone/FirmwareUpdateStandalone.pkg
+#/usr/bin/pkgbuild --nopayload --scripts /tmp/FirmwareUpdateStandalone/scripts --identifier "$IDENTIFIER" --version "$VERSION" /tmp/FirmwareUpdateStandalone/FirmwareUpdateStandalone.pkg
+/Users/itsupport/Downloads/munkipkg /tmp/FirmwareUpdateStandalone
 
 # clean up
 /bin/rm -r /tmp/FirmwareUpdate
