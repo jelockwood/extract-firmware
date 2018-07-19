@@ -2,6 +2,9 @@
 # Based on investigations and work by Pepijn Bruienne
 # Expects a single /Applications/Install macOS High Sierra*.app on disk
 
+IDENTIFIER="com.foo.FirmwareUpdateStandalone"
+VERSION=1.0
+
 if [ ! -f "/usr/local/bin/munkipkg" ]; then
   echo "munkipkg not found and is required. You can get munkipkg from https://github.com/munki/munki-pkg"
   exit 1
