@@ -49,7 +49,7 @@ echo "exit 0" >> /tmp/FirmwareUpdateStandalone/scripts/postinstall
 # build the package
 echo "Building standalone package..."
 #/usr/bin/pkgbuild --nopayload --scripts /tmp/FirmwareUpdateStandalone/scripts --identifier "$IDENTIFIER" --version "$VERSION" /tmp/FirmwareUpdateStandalone/FirmwareUpdateStandalone.pkg
-/Users/itsupport/Downloads/munkipkg /tmp/FirmwareUpdateStandalone
+/usr/local/bin/munkipkg /tmp/FirmwareUpdateStandalone
 
 # clean up
 /bin/rm -r /tmp/FirmwareUpdate
